@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Expense Tracker - Dashboard{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+
+    <!-- ------------------------------------------------ Add expense form -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold">Add an expense</div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('main.add_expense') }}" novalidate>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount</label>
+                        <input type="number" step="0.01" min="0.01" class="form-control" id="amount"
+                               name="amount" placeholder="12.50" required>
+                        <div class="form-text">More than two decimal places is not allowed.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Choose a category...</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" maxlength="200" class="form-control" id="description"
+                               name="description" placeholder="Lunch with the team">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Add expense</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------------------------------------ Totals and summary -->
+    <div class="col-lg-8">
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-primary">
+                    <div class="card-body">
+                        <div class="text-secondary small">Total spending</div>
+                        <div class="fs-3 fw-bold text-primary">{{ total_cents | money(currency) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="text-secondary small">Categories used</div>
+                        <div class="fs-3 fw-bold">{{ summary | length }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category-wise summary -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white fw-semibold">Spending by category</div>
+            <div class="card-body p-0">
+                {% if summary %}
+                    <table class="table table-sm mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col" class="text-center">Entries</th>
+                                <th scope="col" class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in summary %}
+                                <tr>
+                                    <td>{{ row['category'] }}</td>
+                                    <td class="text-center">{{ row['count'] }}</td>
+                                    <td class="text-end fw-semibold">{{ row['total'] | money(currency) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="card-body text-secondary">No expenses yet. Add your first one on the left.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- All expenses -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold">All expenses</div>
+            <div class="card-body p-0">
+                {% if expenses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col" class="text-end">Amount</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for expense in expenses %}
+                                    <tr>
+                                        <td class="text-nowrap">{{ expense['expense_date'] }}</td>
+                                        <td>
+                                            <span class="badge text-bg-secondary">{{ expense['category'] }}</span>
+                                        </td>
+                                        <td>{{ expense['description'] or '-' }}</td>
+                                        <td class="text-end fw-semibold">{{ expense['amount_cents'] | money(currency) }}</td>
+                                        <td class="text-center">
+                                            <form method="post"
+                                                  action="{{ url_for('main.delete_expense', expense_id=expense['id']) }}"
+                                                  onsubmit="return confirm('Delete this expense?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="card-body text-secondary">No expenses yet. Add your first one on the left.</div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

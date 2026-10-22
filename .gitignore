@@ -1,0 +1,85 @@
+# ---------------------------------------------------------------- Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ------------------------------------------------------------- Application
+# Local database files and anything else in the instance folder.
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# ---------------------------------------------------------- Secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+secrets.json
+credentials.json
+
+# ------------------------------------------------------- Terraform (Phase 3)
+# Never commit Terraform state: it can contain secret values in clear text.
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+# terraform.tfvars may hold non-secret values, but keep it out of Git to be safe.
+terraform.tfvars
+terraform.tfvars.json
+# ...but EXAMPLE files contain no secrets and must stay in Git so that other
+# people (and CI) know which variables to set.
+!*.tfvars.example
+!*.tfvars.sample
+!*.tfvars.template
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# ------------------------------------------------------- Jenkins / CI logs
+Jenkinsfile.bak
+*.log
+*.log.*
+build/
+dist/
+target/
+
+# ------------------------------------------------------------------- IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ------------------------------------------------------------------- OS
+.DS_Store
+Thumbs.db
+desktop.ini

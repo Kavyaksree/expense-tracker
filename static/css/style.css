@@ -1,0 +1,34 @@
+/* Small additions on top of Bootstrap 5.3.
+   Everything else comes from the Bootstrap CDN file. */
+
+body {
+    min-height: 100vh;
+}
+
+.card {
+    border-radius: 0.6rem;
+}
+
+.card-header {
+    border-bottom-color: #e9ecef;
+}
+
+/* Keep the delete button from jumping to a different size when hovered. */
+.btn {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.6rem 0.75rem;
+}
+
+footer {
+    margin-top: 2rem;
+}
+
+/* Small screens: give the page a little breathing room. */
+@media (max-width: 576px) {
+    .card-body {
+        padding: 1rem;
+    }
+}

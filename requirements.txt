@@ -1,0 +1,13 @@
+# Application dependencies for the Expense Tracker.
+#
+# Versions are pinned so that the application behaves identically on your
+# machine, in the Jenkins pipeline and on the Azure virtual machine.
+
+# Web framework (provides the routing, templating and request handling).
+Flask==3.0.3
+
+# Production WSGI server used on the Azure VM (Linux only).
+gunicorn==22.0.0
+
+# Automated testing framework used by the "Test" stage of the CI/CD pipeline.
+pytest==8.2.0
