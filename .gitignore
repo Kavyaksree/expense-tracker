@@ -43,7 +43,7 @@ credentials.json
 # ------------------------------------------------------- Terraform (Phase 3)
 # Never commit Terraform state: it can contain secret values in clear text.
 .terraform/
-.terraform.lock.hcl
+
 *.tfstate
 *.tfstate.*
 crash.log
@@ -83,3 +83,5 @@ target/
 .DS_Store
 Thumbs.db
 desktop.ini
+#------------------
+terraform/terraform.tfvars
